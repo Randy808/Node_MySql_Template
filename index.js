@@ -1,5 +1,5 @@
 let config = require('./config/db_config.js');
-let API = require('./model/user.js');
+let UserAPI = require('./model/user/index.js');
 let express = require('express');
 let app = express();
 var cors = require('cors');
@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 /*
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
-var sessionStore = new MySQLStore(config.mysql);
+var sessionStore = new MySQLStore(config.mysqlConfig);
 
 
 app.use(session({
@@ -40,7 +40,7 @@ app.get('/', (req,res)=>{
 app.post('/api/register', (req,res)=>{
   let {user_name, password, email} = req.body;
   
-  API.register_user(user_name, password, email)
+  UserAPI.register(user_name, password, email)
   .then( (result)=>{
     res.send(result);
   });
@@ -50,7 +50,7 @@ app.post('/api/register', (req,res)=>{
 app.post('/api/login', (req,res)=>{
   let {user_name, password} = req.body;
   
-  API.login(user_name, password)
+  UserAPI.login(user_name, password)
   .then( (result)=>{
     res.send(result);
   });
