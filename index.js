@@ -20,7 +20,8 @@ app.use(session({
     saveUninitialized: true
 }));
 */
-
+app.use(cors({credentials: true, origin: [`http://lvh.me:8080`,`http://lvh.me:8181`]}));
+let staticResourceRegex = /(js|json|ico|gif|jpg|png|css|html|swf|mp3|wav|txt|woff)$/;
 app.use('/', express.static(__dirname + '/static'));
 app.use( bodyParser.json({limit: '50mb'}) );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
