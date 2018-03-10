@@ -25,3 +25,13 @@ exports.promiseErr = function(err) {
 		resolve(err);
 	});
 };
+let promiseErrCallback = (err) => {
+	cosnole.log("callback called");
+    return {
+        success: false,
+        error: {
+            code: err.code,
+            errno: err.errno
+        }
+    };
+};

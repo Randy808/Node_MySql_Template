@@ -1,15 +1,9 @@
 const bcrypt = require('bcrypt');
 let knex = require('../../config/db_config.js').knex;
+let {promiseErr,promiseErrCallback} = require('../common/ErrorHandler.js');
 
-let promiseErrCallback = (err) => {
-    return {
-        success: false,
-        error: {
-            code: err.code,
-            errno: err.errno
-        }
-    };
-};
+
+
 
 exports.register = function(user_name, password, email) {
         let qb = knex('user').insert({
