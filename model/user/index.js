@@ -8,34 +8,7 @@ const User = require('./User.js');
 
         */
 
-exports.login = function(user_name, password) {
-    let qb = knex('user').select('*')
-        .where({
-            "user_name": user_name,
-        });
-
-    return qb
-        .then((result, err) => {
-            if (err) throw err;
-            if (result.length < 1) {
-                throw {
-                    "code": "INVALID_CREDENTIALS",
-                    "errno": 1
-                }
-            }
-            let response = {};
-
-            if (bcrypt.compareSync(password, result[0].password)) {
-                response.success = true;
-
-                return response;
-            }
-
-            response.success = false;
-            return response;
-        })
-        .catch(promiseErrCallback);
-};
+exports.login = User.login;
 
 
 

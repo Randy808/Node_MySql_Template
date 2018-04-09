@@ -22,3 +22,33 @@ exports.register = function(user_name, password, email) {
         })
         .catch(promiseErrCallback);
 };
+
+
+exports.login = function(req, user_name, password) {
+        let qb = knex('user').select('*')
+        .where({
+            "user_name": user_name,
+        });
+
+    return qb
+        .then((result, err) => {
+            if (err) throw err;
+            if (result.length < 1) {
+                throw {
+                    "code": "INVALID_CREDENTIALS",
+                    "errno": 1
+                }
+            }
+            let response = {};
+
+            if (bcrypt.compareSync(password, result[0].password)) {
+                response.success = true;
+                req.session.user_id = result[0].user_id;
+                return response;
+            }
+
+            response.success = false;
+            return response;
+        })
+        .catch(promiseErrCallback);
+};
