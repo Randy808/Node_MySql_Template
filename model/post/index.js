@@ -4,9 +4,6 @@ const bcrypt = require('bcrypt');
 const Post = require('./Post.js');
 
 
-/*
-
-        */
 
 exports.createPost = Post.createPost;
 exports.removePost = Post.removePost;
