@@ -34,10 +34,10 @@ exports.login = function(req, user_name, password) {
         .then((result, err) => {
             if (err) throw err;
             if (result.length < 1) {
-                throw {
-                    "code": "INVALID_CREDENTIALS",
-                    "errno": 1
-                }
+                return {
+                    success: false,
+                    err_msg: "Invalid credentials"
+                };
             }
             let response = {};
 
@@ -48,7 +48,10 @@ exports.login = function(req, user_name, password) {
             }
 
             response.success = false;
-            return response;
+            return {
+                success: false,
+                err_msg: "Invalid credentials"
+            };
         })
         .catch(promiseErrCallback);
 };

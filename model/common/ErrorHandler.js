@@ -25,6 +25,8 @@ exports.promiseErr = function(err) {
 		resolve(err);
 	});
 };
+
+
 let promiseErrCallback = (err) => {
 	cosnole.log("callback called");
     return {

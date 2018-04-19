@@ -13,6 +13,8 @@ let UserAPI = require('./model/user/index.js');
 let PostAPI = require('./model/post/index.js');
 let CommentAPI = require('./model/comment/index.js');
 
+global.appRoot = __dirname;
+
 
 app.use(session({
     key: 'cookie',
@@ -26,6 +28,7 @@ app.use(session({
 app.use(cors({credentials: true, origin: [`http://lvh.me:8080`,`http://lvh.me:8181`]}));
 let staticResourceRegex = /(js|json|ico|gif|jpg|png|css|html|swf|mp3|wav|txt|woff)$/;
 app.use('/', express.static(__dirname + '/static'));
+app.use('/js/', express.static(__dirname + '/views/js'));
 app.use( bodyParser.json({limit: '50mb'}) );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   limit: '50mb',
@@ -54,6 +57,7 @@ app.post('/api/register', (req,res)=>{
 
 app.post('/api/login', (req,res)=>{
   let {user_name, password} = req.body;
+  console.log(JSON.stringify(req.body));
   
   UserAPI.login(req, user_name, password)
   .then( (result)=>{
@@ -122,6 +126,14 @@ app.delete('/api/comment', (req,res)=>{
   });
   
 })
+
+app.get('/:file', (req, res) => {
+  console.log(__dirname + "/views/desktop/");
+  let ext = appRoot + "/views/";
+  let code;
+
+  res.sendFile(ext + req.params.file + ".html");
+});
 
 
 app.listen(8080, () => {
